@@ -37,11 +37,10 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
       size: document.documentElement.clientWidth * 0.3,
       fire: false,
       walking: false,
-      circle: false,
     };
 
     // Character scaling
-    window.addEventListener("resize", () => {this.changeSetting('size', document.documentElement.clientWidth * 0.3);});
+    globalThis.addEventListener("resize", () => {this.changeSetting('size', document.documentElement.clientWidth * 0.3);});
   }
 
   // Lit reactive properties
@@ -86,22 +85,25 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
           text-align: left;
         }
         .seed {
-          background-color: var(--ddd-theme-default-coalyGray);
+          background-color: var(--ddd-primary-2);
           color: var(--ddd-theme-default-white);
-          position: absolute;
-          top: 125%;
-          left: 50%;
-          transform: translateX(-50%);
-          padding: var(--ddd-spacing-1) var(--ddd-spacing-2);
-          border-radius: var(--ddd-spacing-1);
-          font-size: 18px;
+          padding: var(--ddd-spacing-1);
+          margin: var(--ddd-spacing-2) 0 0 0;
+          border-radius: var(--ddd-radius-xs);
+          font-size: var(--ddd-font-size-4xs);
           font-weight: bold;
         }
         label {
           display: block;
-          font-size: 21px;
+          font-size: var(--ddd-font-size-s);
           font-weight: bold;
-          margin-bottom: var(--ddd-spacing-1);
+          color: var(--ddd-primary-2);
+          margin-top: var(--ddd-spacing-2);
+        }
+        wired-button:focus-within,
+        wired-button:hover {
+          background-color: var(--ddd-primary-16);
+          color: var(--ddd-primary-2)
         }
         wired-input,
         wired-checkbox,
@@ -110,6 +112,23 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
           display: block;
           margin-bottom: var(--ddd-spacing-4);
           max-width: 400px;
+          color: var(--ddd-primary-2);
+        }
+        wired-item {
+          font-size: var(--ddd-font-size-m);
+          padding: var(--ddd-spacing-2);
+        }
+        wired-combo {
+          --wired-combo-popup-bg: var(--ddd-primary-16);
+        }
+        wired-checkbox {
+          --wired-checkbox-default-swidth: 2px;
+          --wired-checkbox-icon-color: var(--ddd-primary-16);
+        }
+        wired-slider {
+          --wired-slider-knob-color: var(--ddd-primary-16);
+          --wired-slider-bar-color: var(--ddd-primary-2);
+          --wired-slider-knob-outline-color: var(--ddd-primary-15);
         }
       `,
     ];
@@ -120,8 +139,13 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
     return html`
       <div class="container">
         <div class="character">
+        <wired-button @click="${this.shareOnX}">Share on X</wired-button>
+          <wired-button @click="${this.shareOnLinkedIn}">Share on LinkedIn</wired-button>
+          <wired-button @click="${this.copyShareLink}">Copy Share Link</wired-button>
+          <div class="seed">Seed: ${this.characterSettings.seed}</div>
           <rpg-character
             literalseed
+            seed=""
             base="${this.characterSettings.base}"
             face="${this.characterSettings.face}"
             faceitem="${this.characterSettings.faceitem}"
@@ -131,14 +155,40 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
             skin="${this.characterSettings.skin}"
             hatColor="${this.characterSettings.hatColor}"
             hat="${this.characterSettings.hat}"
-            .fire="${this.characterSettings.fire}"
-            .walking="${this.characterSettings.walking}"
-            .circle="${this.characterSettings.circle}"
+            ?fire="${this.characterSettings.fire}"
+            ?walking="${this.characterSettings.walking}"
             style="--character-size: ${this.characterSettings.size}px;"
           ></rpg-character>
-          <div class="seed">Seed: ${this.characterSettings.seed}</div>
         </div>
         <div class="settings">
+        <label>Hat</label>
+          <wired-combo
+            .selected="${this.characterSettings.hat}"
+            @selected="${(e) => this.changeSetting('hat', e.detail.selected)}"
+          >
+            ${["none", "party", "bunny", "coffee", "construction", "cowboy",  "education", "knight", "ninja",
+              "pirate", "watermelon", "random"].map(hat => html`
+              <wired-item value="${hat}" class="wired-rendered">${hat.charAt(0).toUpperCase() + hat.slice(1)}</wired-item>
+            `)}
+          </wired-combo>
+          ${['none', 'bunny', 'coffee', 'party'].includes(this.characterSettings.hat) ? html`
+          <label>Hat Color</label>
+            <wired-slider value="${this.characterSettings.hatColor}" min="0" max="9"
+              @change="${(e) => this.changeSetting('hatColor', parseInt(e.detail.value))}"
+            ></wired-slider>
+          ` : ''}
+
+          <wired-checkbox
+            ?checked="${this.characterSettings.base === 1}"
+            @change="${(e) =>
+              this.changeSetting('base', e.target.checked ? 1 : 0)}"
+            >Hair</wired-checkbox>
+          ${this.characterSettings.base === 1 ? html`
+            <label>Hair Color</label>
+            <wired-slider value="${this.characterSettings.hair}" min="0" max="9"
+              @change="${(e) => this.changeSetting('hair', parseInt(e.detail.value))}">
+            </wired-slider>
+          ` : ''}
           <label>Skin</label>
           <wired-slider value="${this.characterSettings.skin}" min="0" max="9"
             @change="${(e) => this.changeSetting('skin', parseInt(e.detail.value))}"
@@ -162,46 +212,12 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
             @change="${(e) => this.changeSetting('pants', parseInt(e.detail.value))}"
           ></wired-slider>
 
-          <label>Hat</label>
-          <wired-combo
-            .selected="${this.hat}"
-            @selected="${(e) => this.changeSetting('hat', e.detail.selected)}"
-          >
-            ${["none", "bunny", "coffee", "construction", "cowboy",  "education", "knight", "ninja",
-              "party", "pirate", "watermelon", "random"].map(hat => html`
-              <wired-item value="${hat}" class="wired-rendered">${hat.charAt(0).toUpperCase() + hat.slice(1)}</wired-item>
-            `)}
-          </wired-combo>
-          <label>Hat Color</label>
-          <wired-slider value="${this.characterSettings.hatColor}" min="0" max="9"
-            @change="${(e) => this.changeSetting('hatColor', parseInt(e.detail.value))}"
-          ></wired-slider>
-
-          <wired-checkbox
-            ?checked="${this.characterSettings.base === 1}"
-            @change="${(e) =>
-              this.changeSetting('base', e.target.checked ? 1 : 0)}"
-            >Hair</wired-checkbox>
-          ${this.characterSettings.base === 1 ? html`
-            <label>Hair Color</label>
-            <wired-slider value="${this.characterSettings.hair}" min="0" max="9"
-              @change="${(e) => this.changeSetting('hair', parseInt(e.detail.value))}">
-            </wired-slider>
-          ` : ''}
-
           <wired-checkbox ?checked="${this.characterSettings.walking}"
             @change="${(e) => this.changeSetting('walking', e.target.checked)}"
           >Walking</wired-checkbox>
           <wired-checkbox ?checked="${this.characterSettings.fire}"
             @change="${(e) => this.changeSetting('fire', e.target.checked)}"
           >On Fire</wired-checkbox>
-          <wired-checkbox ?checked="${this.characterSettings.circle}"
-            @change="${(e) => this.changeSetting('circle', e.target.checked)}"
-          >Circle Frame</wired-checkbox>
-
-          <wired-button @click="${this.shareOnX}">Share on X</wired-button>
-          <wired-button @click="${this.shareOnLinkedIn}">Share on LinkedIn</wired-button>
-          <wired-button @click="${this.copyShareLink}">Copy Share Link</wired-button>
         </div>
       </div>
     `;
@@ -213,22 +229,28 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
     alert("Link copied to clipboard!");
   }
   shareOnX() {
-    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent('Check out my HAX avatar!')}&url=${this.characterSettings.url}`);
+    globalThis.open(`https://x.com/intent/tweet?text=${encodeURIComponent('Check out my HAX avatar!')}&url=${encodeURIComponent(this.characterSettings.url)}`);
   }
   shareOnLinkedIn() {
-    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${this.characterSettings.url}`);
+    globalThis.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(this.characterSettings.url)}`);
   }
 
   // Build URL
   buildURL() {
-    const baseUrl = window.location.origin;
-    const params = new URLSearchParams({
+    const baseUrl = globalThis.location.origin;
+    let paramData = {
       seed: this.characterSettings.seed,
-      hat: this.characterSettings.hat,
-      fire: this.characterSettings.fire,
-      walking: this.characterSettings.walking,
-      circle: this.characterSettings.circle,
-    }).toString();
+    };
+    if (this.characterSettings.hat) {
+      paramData.hat = this.characterSettings.hat;
+    }
+    if (this.characterSettings.fire) {
+      paramData.fire = this.characterSettings.fire;
+    }
+    if (this.characterSettings.walking) {
+      paramData.walking = this.characterSettings.walking;
+    }
+    const params = new URLSearchParams(paramData).toString();
     this.characterSettings.url = `${baseUrl}?${params}`;
   }
 
@@ -243,7 +265,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
   // Character loaded
   connectedCallback() {
     super.connectedCallback();
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(globalThis.location.search);
 
     if (params.has("seed")) {
       // get seed from URL if it exists, then split each digit and map it for assignment to characterSettings
@@ -262,11 +284,9 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
         this.characterSettings.hatColor,
       ] = vals;
 
-      this.characterSettings.hat = params.get("hat");
+      this.characterSettings.hat = params.get("hat") ? params.get('hat') : 'none';
       this.characterSettings.fire = params.get("fire") === 'true';
-      this.characterSettings.walking = params.get("walking") === 'true';
-      this.characterSettings.circle = params.get("circle") === 'true';
-    }
+      this.characterSettings.walking = params.get("walking") === 'true';    }
 
     this.buildURL();
   }

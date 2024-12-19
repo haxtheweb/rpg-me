@@ -31,6 +31,7 @@
         "@haxtheweb/i18n-manager": "^9.0.13",
         "@haxtheweb/rpg-character": "^9.0.18",
         "lit": "^3.2.0",
+        "roughjs": "4.4.0",
         "wired-elements": "^3.0.0-rc.6"
     },
     "devDependencies": {
