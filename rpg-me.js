@@ -6,7 +6,9 @@ import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
 import '@haxtheweb/rpg-character/rpg-character.js';
-import "wired-elements"
+import "wired-elements";
+
+const statement = encodeURIComponent('Check out my awesome RPG character, brought to the world by');
 
 /**
  * `rpg-me`
@@ -229,10 +231,10 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
     alert("Link copied to clipboard!");
   }
   shareOnX() {
-    globalThis.open(`https://x.com/intent/tweet?text=${encodeURIComponent('Check out my HAX avatar!')}&url=${encodeURIComponent(this.characterSettings.url)}`);
+    globalThis.open(`https://x.com/intent/tweet?text=${statement} @HAXTheWeb&url=${encodeURIComponent(this.characterSettings.url)}`);
   }
   shareOnLinkedIn() {
-    globalThis.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(this.characterSettings.url)}`);
+    globalThis.open(`https://www.linkedin.com/sharing/share-offsite/?text=${statement} @HAX&url=${encodeURIComponent(this.characterSettings.url)}`);
   }
 
   // Build URL

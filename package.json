@@ -27,9 +27,9 @@
         "test:watch": "web-test-runner test/**/*.test.js --node-resolve --watch"
     },
     "dependencies": {
-        "@haxtheweb/d-d-d": "^9.0.13",
-        "@haxtheweb/i18n-manager": "^9.0.13",
-        "@haxtheweb/rpg-character": "^9.0.18",
+        "@haxtheweb/d-d-d": "^9.0.27",
+        "@haxtheweb/i18n-manager": "^9.0.22",
+        "@haxtheweb/rpg-character": "^9.0.27",
         "lit": "^3.2.0",
         "roughjs": "4.4.0",
         "wired-elements": "^3.0.0-rc.6"
