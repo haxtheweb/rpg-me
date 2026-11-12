@@ -1,10 +1,10 @@
 {
-    "name": "@jno-de/rpg-me",
+    "name": "@haxtheweb/rpg-me",
     "version": "0.0.0",
-    "description": "Webcomponent rpg-me following hax / open-wc recommendations",
+    "description": "rpg-me.hax.cloud: build an rpg-character, keep its code, share it. Part of the HAX network.",
     "license": "Apache-2.0",
     "author": {
-        "name": "jno-de"
+        "name": "haxtheweb"
     },
     "keywords": [
         "webcomponents",
@@ -13,7 +13,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/jno-de/rpg-me"
+        "url": "https://github.com/haxtheweb/rpg-me"
     },
     "type": "module",
     "main": "rpg-me.js",
@@ -27,12 +27,11 @@
         "test:watch": "web-test-runner test/**/*.test.js --node-resolve --watch"
     },
     "dependencies": {
-        "@haxtheweb/d-d-d": "^9.0.27",
-        "@haxtheweb/i18n-manager": "^9.0.22",
-        "@haxtheweb/rpg-character": "^9.0.27",
-        "lit": "^3.2.0",
-        "roughjs": "4.4.0",
-        "wired-elements": "^3.0.0-rc.6"
+        "@haxtheweb/d-d-d": "^26.8.0",
+        "@haxtheweb/hax-network-bar": "^26.8.0",
+        "@haxtheweb/i18n-manager": "^26.8.0",
+        "@haxtheweb/rpg-character": "^26.8.0",
+        "lit": "^3.3.0"
     },
     "devDependencies": {
         "@babel/preset-env": "^7.16.4",
