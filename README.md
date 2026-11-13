@@ -12,7 +12,7 @@
 
 - `npm install`
 - `npm start` runs it locally
-- `npm run build` writes the site to `public/` (Vercel runs this, see `vercel.json`)
+- `npm run build` writes the site to `public/` (Vercel runs this, see `vercel.json`). It builds against [webcomponents](https://github.com/haxtheweb/webcomponents) master, not the last npm release: `scripts/webcomponents-master.mjs` (run as `prebuild`) copies the `@haxtheweb` elements rpg-me uses, and the ones they use, from master over what npm installed. `WEBCOMPONENTS_REF=<branch>` builds against another branch, `WEBCOMPONENTS_SRC=<checkout>/elements` uses a local checkout, `RPG_ME_NPM_ONLY=1` uses the npm release.
 - `npm test` runs the tests
 
 Option labels come from `rpg-character`'s own HAX settings, so they stay in step with the element. English strings are in `rpg-me.js` (`this.t`) and `locales/rpg-me.en.json`.

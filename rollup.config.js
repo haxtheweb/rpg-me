@@ -3,6 +3,22 @@ import babel from '@rollup/plugin-babel';
 import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import esbuild from 'rollup-plugin-esbuild';
+import { cpSync, existsSync } from 'node:fs';
+
+// iconsets find their icons at <bundle folder>/svgs/<set>/, so the icon files
+// of every iconset that is bundled go there
+const iconSvgs = [
+  'node_modules/@haxtheweb/simple-icon/lib/svgs',
+  'node_modules/@haxtheweb/hax-iconset/lib/svgs',
+];
+const copyIconSvgs = {
+  name: 'copy-icon-svgs',
+  writeBundle() {
+    iconSvgs
+      .filter((dir) => existsSync(dir))
+      .forEach((dir) => cpSync(dir, 'public/svgs', { recursive: true }));
+  },
+};
 
 export default {
   input: 'index.html',
@@ -49,5 +65,6 @@ export default {
         ],
       ],
     }),
+    copyIconSvgs,
   ],
 };
