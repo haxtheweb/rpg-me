@@ -1,49 +1,22 @@
 # rpg-me
-DDD + Lit web component based on OpenWC toolchain. This is intended to provide the following:
-- Look good via DDD, HAX design system
-- Simple, easy to read code via Lit
-- Great workflow via OpenWC tooling + Vercel for sharing demos
-- Simplify contribution to the HAX ecosystem
-- Publish and distribute via npmjs.com
 
-## Install dependencies
-- `npm install` - installs dependencies so you can work
+[rpg-me.hax.cloud](https://rpg-me.hax.cloud): build an [`rpg-character`](https://github.com/haxtheweb/webcomponents/tree/master/elements/rpg-character), keep its character code, share a link that recreates it, and drop it into any page that loads HAX. It is part of the HAX network of sites (hax.cloud, the element portfolio, the live HAXcms demo) and shares their header strip, `hax-network-bar`.
 
-## Commands
-- `npm start` - runs your web component for development, reloading on file changes
-- `npm run build` - builds your web component and outputs it in your `dist` directory for placement on web servers in a compiled form. Vercel automatically does this on commit to github.
-- `npm run release` - this will build your code, update the version, and publish it to npm for others to use
+## What it does
 
-## Working with your web component
-- edit `./rpg-me.js`
-- edit your 'demo' by modifying `./index.html`
-- add dependencies using `npm install --save @whatever/repo` or editing `./package.json` directly
-- if you must reference additional non-JS files, ensure you use the `new URL('./my-file.jpg', import.meta.url).href` syntax so that it builds correctly
-- if you add additional `.js` files / web components then place them under `/lib/`
-- to improve HAX wiring edit file in `/lib/rpg-me.haxProperties.json`
-- for i18n / internationalization efforts, see associated language `.json` files in `/locales/` as well as `/lib/` for haxProperties related translation examples.
+- Everything `rpg-character-builder` can pick: the look (body, skin, hair, hair color, face, glasses, neckwear, shirt, pants), the character type, expression, pose, hat, mask, makeup, gear (item, offhand, feet, pet, flag text) and extras (shaved, seasonal, fire, circle background).
+- A character code (`1-0103...~PSU`) that `<rpg-character code="...">` turns back into the same character anywhere.
+- Links: `?code=<code>` opens a character, `&walking=true` makes it walk. Old links still work: `?seed=05700899&hat=none` (the 8 digits are body, face, glasses, hair, pants, shirt, skin and hair color), as does `?seed=<a name>`.
 
-## Recommended setup
-- Load VS code in 1 window to project root
-- Browser open
-- Right click -> Inspect and open the Console to see error output
+## Develop
 
-## Recommended Integrated Development Environment (IDE)
-- [VSCode](https://code.visualstudio.com/Download)
+- `npm install`
+- `npm start` runs it locally
+- `npm run build` writes the site to `public/` (Vercel runs this, see `vercel.json`)
+- `npm test` runs the tests
 
-### Plugins
+Option labels come from `rpg-character`'s own HAX settings, so they stay in step with the element. English strings are in `rpg-me.js` (`this.t`) and `locales/rpg-me.en.json`.
 
-Name: lit-html
-Description: Syntax highlighting and IntelliSense for html inside of JavaScript and TypeScript tagged template strings
-Publisher: Matt Bierner
-VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=bierner.lit-html
+## License
 
-Name: lit-plugin
-Description: Syntax highlighting, type checking and code completion for lit-html
-Publisher: Rune Mehlsen
-VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin
-
-# Credits
-A brighter future dreamed and developed by the Penn State [HAXTheWeb](https://hax.psu.edu/) initative.
-
-Never. Stop. innovating.
+Apache-2.0
