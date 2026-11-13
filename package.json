@@ -20,6 +20,7 @@
     "module": "rpg-me.js",
     "scripts": {
         "start": "web-dev-server",
+        "prebuild": "node scripts/webcomponents-master.mjs",
         "build": "rimraf public && rollup -c rollup.config.js && npm run analyze",
         "analyze": "cem analyze --litelement --exclude public",
         "release": "npm run build && commit-and-tag-version && git push --follow-tags origin main && npm publish",
