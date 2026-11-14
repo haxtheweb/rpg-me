@@ -898,7 +898,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
             >
             <a
               class="pill demo"
-              href="https://webcomponents.hax.cloud/elements/haxcms-elements/demo/index.html"
+              href="https://demo.hax.cloud"
               >${this.t.liveDemo} ↗</a
             >
           </div>
