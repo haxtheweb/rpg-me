@@ -20,6 +20,21 @@ const copyIconSvgs = {
   },
 };
 
+// d-d-d serves its fonts itself: lib/fonts.js turns a family into
+// new URL(`./fonts/${css}`, import.meta.url), which the bundle resolves next
+// to the bundle, and each font's CSS loads its font files relative to itself.
+// So the fonts folder is copied as it is, beside the bundle, and the asset
+// plugin leaves that variable URL alone (it would fail the build on it).
+const dddFonts = 'node_modules/@haxtheweb/d-d-d/lib/fonts';
+const copyDddFonts = {
+  name: 'copy-ddd-fonts',
+  writeBundle() {
+    if (existsSync(dddFonts)) {
+      cpSync(dddFonts, 'public/fonts', { recursive: true });
+    }
+  },
+};
+
 export default {
   input: 'index.html',
   output: {
@@ -44,7 +59,7 @@ export default {
       target: ['es2022'],
     }),
     /** Bundle assets references via import.meta.url */
-    importMetaAssets(),
+    importMetaAssets({ exclude: ['**/d-d-d/lib/fonts.js'] }),
     /** Minify html and css tagged template literals */
     babel({
       plugins: [
@@ -66,5 +81,6 @@ export default {
       ],
     }),
     copyIconSvgs,
+    copyDddFonts,
   ],
 };
