@@ -111,14 +111,8 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
     this.status = "";
     this._labels = {};
     this.t = {
-      title: "RPG me",
       eyebrow: "rpg-character",
       heading: "Build your character. Keep its code.",
-      siteNav: "RPG me",
-      build: "Build",
-      useIt: "Use it",
-      portfolio: "Element portfolio",
-      liveDemo: "Try the live demo",
       preview: "Character preview",
       name: "Name",
       nameHelp: "A name picks a look. Your other choices stay.",
@@ -451,75 +445,6 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
         input,
         select {
           font-family: inherit;
-        }
-
-        /* ---------- site header (matches hax.cloud) ---------- */
-        header.top {
-          background-color: var(--ddd-theme-default-nittanyNavy);
-          color: var(--ddd-theme-default-white);
-        }
-        header.top .wrap {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: var(--ddd-spacing-3) var(--ddd-spacing-8);
-          padding-block: var(--ddd-spacing-3);
-        }
-        .brand {
-          display: flex;
-          align-items: center;
-          gap: var(--ddd-spacing-3);
-          color: var(--ddd-theme-default-white);
-          font-weight: var(--ddd-font-weight-black);
-          font-size: var(--ddd-font-size-xs);
-        }
-        .badge {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: var(--ddd-spacing-10);
-          height: var(--ddd-spacing-10);
-          border-radius: var(--ddd-radius-sm);
-          background-color: var(--ddd-theme-default-beaverBlue);
-          font-family: var(--ddd-font-navigation);
-          font-size: var(--ddd-font-size-4xs);
-          font-weight: var(--ddd-font-weight-bold);
-        }
-        nav.site {
-          display: flex;
-          flex-wrap: wrap;
-          gap: var(--ddd-spacing-1) var(--ddd-spacing-6);
-          font-family: var(--ddd-font-navigation);
-          font-size: var(--ddd-font-size-3xs);
-        }
-        header.top a.navlink {
-          color: var(--ddd-theme-default-white);
-          font-weight: var(--ddd-font-weight-regular);
-          padding-block: var(--ddd-spacing-2);
-        }
-        .acts {
-          display: flex;
-          flex-wrap: wrap;
-          gap: var(--ddd-spacing-3);
-          margin-left: auto;
-        }
-        header.top a.pill {
-          font-size: var(--ddd-font-size-4xs);
-          font-weight: var(--ddd-font-weight-bold);
-          padding: var(--ddd-spacing-2) var(--ddd-spacing-4);
-          border-radius: var(--ddd-radius-rounded);
-          text-decoration: none;
-        }
-        header.top a.pill.portfolio {
-          color: var(--ddd-theme-default-white);
-          border: var(--ddd-border-size-sm) solid
-            var(--ddd-theme-default-pughBlue);
-        }
-        header.top a.pill.demo {
-          color: var(--ddd-theme-default-nittanyNavy);
-          background-color: var(--ddd-theme-default-keystoneYellow);
-          border: var(--ddd-border-size-sm) solid
-            var(--ddd-theme-default-keystoneYellow);
         }
 
         /* ---------- page ---------- */
@@ -856,9 +781,6 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
           :host {
             --rpgme-gutter: var(--ddd-spacing-4);
           }
-          .acts {
-            margin-left: 0;
-          }
           h1 {
             font-size: var(--ddd-font-size-l);
           }
@@ -882,28 +804,6 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
     const character = this.character;
     const invalid = this.status === this.t.invalidCode;
     return html`
-      <header class="top">
-        <div class="wrap">
-          <a class="brand" href="/">
-            <span class="badge" aria-hidden="true">HAX</span>
-            <span>${this.t.title}</span>
-          </a>
-          <nav class="site" aria-label="${this.t.siteNav}">
-            <a class="navlink" href="#build">${this.t.build}</a>
-            <a class="navlink" href="#use">${this.t.useIt}</a>
-          </nav>
-          <div class="acts">
-            <a class="pill portfolio" href="https://webcomponents.hax.cloud"
-              >${this.t.portfolio} ↗</a
-            >
-            <a
-              class="pill demo"
-              href="https://demo.hax.cloud"
-              >${this.t.liveDemo} ↗</a
-            >
-          </div>
-        </div>
-      </header>
       <main>
         <div class="wrap">
           <hgroup>
