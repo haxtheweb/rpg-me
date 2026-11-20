@@ -1,6 +1,6 @@
 # rpg-me
 
-[rpg.art.hax.cloud](https://rpg.art.hax.cloud), one of [HAX Art](https://haxtheweb.github.io/art/)'s tools (rpg-me.hax.cloud redirects there): build an [`rpg-character`](https://github.com/haxtheweb/webcomponents/tree/master/elements/rpg-character), keep its character code, share a link that recreates it, and drop it into any page that loads HAX. It is part of the HAX network of sites (hax.cloud, the element portfolio, the live HAXcms demo) and shares their header strip, `hax-network-bar`.
+[rpg.art.hax.cloud](https://rpg.art.hax.cloud), one of [HAX Art](https://art.hax.cloud/)'s tools (rpg-me.hax.cloud redirects there): build an [`rpg-character`](https://github.com/haxtheweb/webcomponents/tree/master/elements/rpg-character), keep its character code, share a link that recreates it, and drop it into any page that loads HAX. It is part of the HAX network of sites (hax.cloud, the element portfolio, the live HAXcms demo) and shares their header strip, `hax-network-bar`.
 
 ## What it does
 
