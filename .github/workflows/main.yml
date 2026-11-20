@@ -1,5 +1,8 @@
 name: Build and Deploy
-on: [push]
+# deploy only what lands on main; a branch under review must not publish itself
+on:
+  push:
+    branches: [main]
 jobs:
   build-and-deploy:
     permissions:
