@@ -92,7 +92,7 @@ export function characterFromParams(search) {
 
 /**
  * `rpg-me`
- * rpg-me.hax.cloud: build an rpg-character, keep its code, share a link that
+ * rpg.art.hax.cloud (one of HAX Art's tools): build an rpg-character, keep its code, share a link that
  * recreates it, and drop it into any page that loads HAX.
  *
  * @element rpg-me
@@ -156,7 +156,8 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
       shareLinkedIn: "Share on LinkedIn",
       source: "Source: haxtheweb/rpg-me",
       element: "rpg-character in the element portfolio",
-      network: "Part of the HAX network.",
+      network: "Part of HAX Art, in the HAX network.",
+      art: "HAX Art",
     };
     this.registerLocalization({
       context: this,
@@ -821,6 +822,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
         <div class="wrap">
           <a href="https://github.com/haxtheweb/rpg-me">${this.t.source}</a>
           <a href="https://webcomponents.hax.cloud">${this.t.element}</a>
+          <a href="https://haxtheweb.github.io/art/">${this.t.art}</a>
           <span class="note">${this.t.network}</span>
         </div>
       </footer>

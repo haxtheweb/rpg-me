@@ -3,5 +3,18 @@
   "framework": null,
   "installCommand": "npm install",
   "buildCommand": "npm run build",
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "rpg-me.hax.cloud"
+        }
+      ],
+      "destination": "https://rpg.art.hax.cloud/:path*",
+      "permanent": true
+    }
+  ]
 }

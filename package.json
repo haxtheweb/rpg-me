@@ -1,7 +1,7 @@
 {
     "name": "@haxtheweb/rpg-me",
     "version": "0.0.0",
-    "description": "rpg-me.hax.cloud: build an rpg-character, keep its code, share it. Part of the HAX network.",
+    "description": "rpg.art.hax.cloud: build an rpg-character, keep its code, share it. One of HAX Art's tools, part of the HAX network.",
     "license": "Apache-2.0",
     "author": {
         "name": "haxtheweb"
