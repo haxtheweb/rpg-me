@@ -822,7 +822,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
         <div class="wrap">
           <a href="https://github.com/haxtheweb/rpg-me">${this.t.source}</a>
           <a href="https://webcomponents.hax.cloud">${this.t.element}</a>
-          <a href="https://haxtheweb.github.io/art/">${this.t.art}</a>
+          <a href="https://art.hax.cloud/">${this.t.art}</a>
           <span class="note">${this.t.network}</span>
         </div>
       </footer>
