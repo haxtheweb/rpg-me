@@ -1,6 +1,6 @@
 import { html, fixture, expect } from "@open-wc/testing";
 import { decodeCharacter } from "@haxtheweb/rpg-character/rpg-character.js";
-import { characterFromParams, PAGE_SIZE } from "../rpg-me.js";
+import { characterFromParams } from "../rpg-me.js";
 
 describe("characterFromParams", () => {
   it("loads a character code", () => {
@@ -43,98 +43,44 @@ describe("characterFromParams", () => {
 
 describe("rpg-me", () => {
   let element;
+  const settled = async () => {
+    await element.updateComplete;
+    await element.builder.updateComplete;
+    await element.updateComplete;
+  };
   beforeEach(async () => {
     element = await fixture(html`<rpg-me></rpg-me>`);
+    await settled();
   });
 
-  it("starts with a valid character code", () => {
+  it("runs the shared builder with sync-url on", () => {
+    const builder = element.builder;
+    expect(builder).to.not.equal(null);
+    expect(builder.syncUrl).to.equal(true);
     expect(decodeCharacter(element.code)).to.not.equal(null);
+    expect(element.code).to.equal(builder.code);
   });
 
-  const tile = (key) =>
-    element.shadowRoot.querySelector(`button.tile[data-option="${key}"]`);
-
-  it("changes the code when a tile is picked", async () => {
-    const before = element.code;
-    element.tab = "character";
-    await element.updateComplete;
-    // ready-made characters page 12 at a time; wizard is on a later page
-    const index = element.tabDef.sections[0].options.findIndex(
-      (o) => o.key === "preset-wizard",
-    );
-    element.page = Math.floor(index / PAGE_SIZE);
-    await element.updateComplete;
-    tile("preset-wizard").click();
-    await element.updateComplete;
-    expect(element.code).to.not.equal(before);
-    expect(decodeCharacter(element.code).preset).to.equal("wizard");
-  });
-
-  it("flips an effect on and off from the same tile", async () => {
-    element.tab = "effects";
-    await element.updateComplete;
-    expect(decodeCharacter(element.code).circle).to.equal(false);
-    tile("circle").click();
-    await element.updateComplete;
-    expect(decodeCharacter(element.code).circle).to.equal(true);
-    expect(tile("circle").getAttribute("aria-pressed")).to.equal("true");
-    tile("circle").click();
-    await element.updateComplete;
-    expect(decodeCharacter(element.code).circle).to.equal(false);
-    expect(tile("circle").getAttribute("aria-pressed")).to.equal("false");
-  });
-
-  it("takes a chosen hat off when its tile is clicked again", async () => {
-    element.tab = "hat";
-    await element.updateComplete;
-    tile("hat-bunny").click();
-    await element.updateComplete;
+  it("keeps the embed code in step with the builder", async () => {
+    const builder = element.builder;
+    builder.tab = "hat";
+    await builder.updateComplete;
+    builder.shadowRoot
+      .querySelector('button.tile[data-option="hat-bunny"]')
+      .click();
+    await settled();
     expect(decodeCharacter(element.code).hat).to.equal("bunny");
-    tile("hat-bunny").click();
+    expect(element.shadowRoot.querySelector("pre").textContent).to.contain(
+      element.code,
+    );
+    builder.walking = true;
+    await settled();
+    await new Promise((r) => setTimeout(r, 0));
     await element.updateComplete;
-    expect(decodeCharacter(element.code).hat).to.equal("none");
-  });
-
-  it("shows how many options there are and pages through them", async () => {
-    element.tab = "hat";
-    await element.updateComplete;
-    const total = element.tabDef.sections[0].options.length;
-    const count = () =>
-      element.shadowRoot.querySelector(".pager .count").textContent.trim();
-    expect(count()).to.equal(`1-${PAGE_SIZE} of ${total}`);
-    const dots = element.shadowRoot.querySelectorAll(".pager .dot");
-    expect(dots.length).to.equal(Math.ceil(total / PAGE_SIZE));
-    dots[1].click();
-    await element.updateComplete;
-    expect(count()).to.equal(`${PAGE_SIZE + 1}-${PAGE_SIZE * 2} of ${total}`);
-    expect(
-      element.shadowRoot
-        .querySelectorAll(".pager .dot")[1]
-        .getAttribute("aria-current"),
-    ).to.equal("true");
-  });
-
-  it("undoes the last change", async () => {
-    const before = element.code;
-    element.tab = "hat";
-    await element.updateComplete;
-    tile("hat-bunny").click();
-    await element.updateComplete;
-    element.undo();
-    await element.updateComplete;
-    expect(element.code).to.equal(before);
+    expect(element.embedCode).to.contain(" walking");
   });
 
   it("passes the a11y audit", async () => {
-    await expect(element).shadowDom.to.be.accessible();
-  });
-
-  it("passes the a11y audit on a paged tab with colors", async () => {
-    element.tab = "hair";
-    await element.updateComplete;
-    await expect(element).shadowDom.to.be.accessible();
-    element.tab = "hat";
-    await element.updateComplete;
     await expect(element).shadowDom.to.be.accessible();
   });
 });
