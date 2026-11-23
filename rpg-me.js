@@ -494,6 +494,9 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
         /* preview */
         .preview {
           flex: 1 1 340px;
+          /* let the card shrink below its content width so the page reflows
+             at 320px wide (WCAG 1.4.10); the stage already caps at 100% */
+          min-width: 0;
           padding: var(--ddd-spacing-6);
           display: flex;
           flex-direction: column;
@@ -619,7 +622,7 @@ export class RpgMe extends DDDSuper(I18NMixin(LitElement)) {
         }
         .rows {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
           gap: var(--ddd-spacing-4) var(--ddd-spacing-6);
         }
         .stepper {
